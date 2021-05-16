@@ -132,8 +132,8 @@ class Field:
             else ship.size
         for i in range(x - 1, x + x_size + 1):
             for j in range(y - 1, y + y_size + 1):
-                if 0 < i < self.size:
-                    if 0 < j < self.size:
+                if 0 <= i < self.size:
+                    if 0 <= j < self.size:
                         if self.content[i][j] != FieldContentEnum.SHIP:
                             self.content[i][j] = FieldContentEnum.UNAVAILABLE
 
