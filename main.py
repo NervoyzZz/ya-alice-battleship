@@ -1,8 +1,11 @@
-from flask import Flask
-from flask import request
+# Copyright 2021 Daniil O. Nepryakhin [NervoyzZz]
+# Licensed under the Apache License, Version 2.0
 
 import json
 import random
+
+from flask import Flask
+from flask import request
 
 
 app = Flask(__name__)
