@@ -7,12 +7,9 @@ from enum import Enum
 class FieldContentEnum(Enum):
     """Enum class to describe each grid of the field content."""
     EMPTY = 0
-    ONE_SHIP = 1
-    TWO_SHIP = 2
-    THREE_SHIP = 3
-    FOUR_SHIP = 4
-    UNKNOWN = 5
-    UNAVAILABLE = 6
+    SHIP = 1
+    UNKNOWN = 2
+    UNAVAILABLE = 3
 
 
 class ShipOrientationEnum(Enum):
