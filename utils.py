@@ -93,14 +93,49 @@ class Field:
         None
         """
         is_ship_placed = False
+        orient = ShipOrientationEnum.HORIZONTAL
+        top_left = (0, 0)
+        ship = Ship(0, orient, top_left)
         while not is_ship_placed:
             # choose random orientation and location
-            ship = Ship(ship_size,
-                        random.choice((ShipOrientationEnum.VERTICAL,
-                                       ShipOrientationEnum.HORIZONTAL)),
-                        (random.randint(0, self.size - 1),
-                         random.randint(0, self.size - 1)))
+            orient = random.choice((ShipOrientationEnum.VERTICAL,
+                                    ShipOrientationEnum.HORIZONTAL))
+            top_left = (random.randint(0, self.size - 1),
+                        random.randint(0, self.size - 1))
+            ship = Ship(ship_size, orient, top_left)
             is_ship_placed = self.is_location_for_ship_free(ship)
+        self.ship_count += 1
+        x, y = top_left
+        for i in range(ship_size):
+            x = x if orient == ShipOrientationEnum.VERTICAL else x + i
+            y = y if orient == ShipOrientationEnum.HORIZONTAL else y + i
+            self.content[x][y] = FieldContentEnum.SHIP
+        self.set_location_unavailable(ship)
+
+    def set_location_unavailable(self, ship):
+        """
+        Set location around the ship unavailable.
+
+        Parameters
+        ----------
+        ship: Ship
+            Placed ship object.
+
+        Returns
+        -------
+        None
+        """
+        x, y = ship.top_left_location
+        x_size = 1 if ship.orientation == ShipOrientationEnum.HORIZONTAL \
+            else ship.size
+        y_size = 1 if ship.orientation == ShipOrientationEnum.VERTICAL \
+            else ship.size
+        for i in range(x - 1, x + x_size + 1):
+            for j in range(y - 1, y + y_size + 1):
+                if 0 < i < self.size:
+                    if 0 < j < self.size:
+                        if self.content[i][j] != FieldContentEnum.SHIP:
+                            self.content[i][j] = FieldContentEnum.UNAVAILABLE
 
 
 class Ship:
