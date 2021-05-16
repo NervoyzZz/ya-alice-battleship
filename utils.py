@@ -16,7 +16,19 @@ class FieldContentEnum(Enum):
 
 
 class Field:
+    """Class to describe battle fields."""
     def __init__(self, size=10):
+        """
+        Method to init `Field` class.
+
+        Parameters
+        ----------
+        size: int
+            Optional. Size of the field. Field is a square of the `size`.
+        """
         self.size = size
         self.ship_count = 0
-        self.content = [[FieldContentEnum.EMPTY for j in range(size)] for i in range(size)]
+        self.content = [
+            [FieldContentEnum.EMPTY for j in range(size)]
+            for i in range(size)
+        ]
