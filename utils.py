@@ -1,6 +1,8 @@
 # Copyright 2021 Daniil O. Nepryakhin [NervoyzZz]
 # Licensed under the Apache License, Version 2.0
 
+import random
+
 from enum import Enum
 
 
@@ -67,6 +69,29 @@ class Field:
             return True
         # top left location is not empty
         return False
+
+    def place_ship(self, ship_size):
+        """
+        Function to place ship on the field.
+
+        Parameters
+        ----------
+        ship_size: int
+            Size of the ship.
+
+        Returns
+        -------
+        None
+        """
+        is_ship_placed = False
+        while not is_ship_placed:
+            # choose random orientation and location
+            ship = Ship(ship_size,
+                        random.choice((ShipOrientationEnum.VERTICAL,
+                                       ShipOrientationEnum.HORIZONTAL)),
+                        (random.randint(0, self.size - 1),
+                         random.randint(0, self.size - 1)))
+            is_ship_placed = self.is_location_for_ship_free(ship)
 
 
 class Ship:
