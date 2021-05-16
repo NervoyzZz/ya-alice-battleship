@@ -4,6 +4,8 @@
 import json
 import random
 
+import utils
+
 from flask import Flask
 from flask import request
 
@@ -41,18 +43,31 @@ def handle_dialog(res, req):
     -------
     None
     """
-    if req['request']['original_utterance']:
-        request_text = req['request']['original_utterance'].lower()
-        possible_responses = (
-            f'Вы сказали: {request_text}',
-            f'Повторяю: {request_text}'
-        )
-    else:
+    if not (request_text := req['request']['original_utterance']):
+        # The first entry
         possible_responses = (
             'Здравствуйте! Это игра морской бой. Хотите сыграть?',
             'Приветствую вас! Это игра морской бой. Она еще разрабатывается. '
             'Хотите попробовать?'
         )
+        game_state = utils.GameStateEnum.NOT_STARTED
+    else:
+        # there is user text
+        request_text = request_text.lower()
+        if request_text == 'старт':
+            game_state = utils.GameStateEnum.SHIP_PLACEMENT
+            possible_response = ('Это тестовая версия игры. Начертите два '
+                                 'поля размером пять на пять. Одно из них '
+                                 'для расположения ваших кораблей, а другое для '
+                                 'отслеживания ваших выстрелов по моим кораблям. '
+                                 'Затем расположите на вашем поле четыре однопалубных '
+                                 'кораблей. Как будете готовы, скажите "готов".',)
+        else:
+            possible_responses = (
+                f'Вы сказали: {request_text}',
+                f'Повторяю: {request_text}'
+            )
+    # result Alice response
     res['response']['text'] = random.choice(possible_responses)
 
 
