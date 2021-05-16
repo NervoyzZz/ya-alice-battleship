@@ -36,6 +36,38 @@ class Field:
             for i in range(size)
         ]
 
+    def is_location_for_ship_free(self, ship):
+        """
+        Check if it is possible to place the ship on chosen location.
+
+        Parameters
+        ----------
+        ship: Ship
+            Ship that should be placed on the location.
+
+        Returns
+        -------
+        bool
+            `True` if possible to locate and `False` otherwise.
+        """
+        x, y = ship.top_left_location
+        if self.content[x][y] == FieldContentEnum.EMPTY:
+            for i in range(1, ship.size):
+                x = x if ship.orientation == ShipOrientationEnum.VERTICAL \
+                    else x + 1
+                y = y if ship.orientation == ShipOrientationEnum.HORIZONTAL \
+                    else y + 1
+                # out of bounds
+                if x < self.size or y < self.size:
+                    return False
+                # the grid is not empty
+                if not self.content[x][y] == FieldContentEnum.EMPTY:
+                    return False
+            # everything is ok
+            return True
+        # top left location is not empty
+        return False
+
 
 class Ship:
     """Class to describe ship object."""
