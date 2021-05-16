@@ -56,12 +56,16 @@ def handle_dialog(res, req):
         request_text = request_text.lower()
         if request_text == 'старт':
             game_state = utils.GameStateEnum.SHIP_PLACEMENT
-            possible_response = ('Это тестовая версия игры. Начертите два '
+            possible_responses = ('Это тестовая версия игры. Начертите два '
                                  'поля размером пять на пять. Одно из них '
                                  'для расположения ваших кораблей, а другое для '
                                  'отслеживания ваших выстрелов по моим кораблям. '
                                  'Затем расположите на вашем поле четыре однопалубных '
                                  'кораблей. Как будете готовы, скажите "готов".',)
+            alice_field = utils.Field(5)
+            player_field = utils.Field(5)
+            for i in range(4):
+                alice_field.place_ship(1)
         else:
             possible_responses = (
                 f'Вы сказали: {request_text}',
