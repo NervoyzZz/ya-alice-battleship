@@ -20,6 +20,15 @@ class ShipOrientationEnum(Enum):
     VERTICAL = 1
 
 
+class GameStateEnum(Enum):
+    """Enum to describe game statement."""
+    NOT_STARTED = 0
+    SHIP_PLACEMENT = 1
+    ALICE_TURN = 2
+    PLAYER_TURN = 3
+    FINISHED = 4
+
+
 class Field:
     """Class to describe battle fields."""
     def __init__(self, size=10):
