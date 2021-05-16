@@ -56,3 +56,7 @@ class Ship:
             Location of the top left chunk of the ship.
             Indexes of corresponding Field object.
         """
+        self.size = size
+        self.health = size
+        self.orientation = orientation
+        self.top_left_location = top_left_location
