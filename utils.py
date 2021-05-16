@@ -15,6 +15,12 @@ class FieldContentEnum(Enum):
     UNAVAILABLE = 6
 
 
+class ShipOrientationEnum(Enum):
+    """Enum to describe possible orientations of the ships."""
+    HORIZONTAL = 0
+    VERTICAL = 1
+
+
 class Field:
     """Class to describe battle fields."""
     def __init__(self, size=10):
@@ -32,3 +38,21 @@ class Field:
             [FieldContentEnum.EMPTY for j in range(size)]
             for i in range(size)
         ]
+
+
+class Ship:
+    """Class to describe ship object."""
+    def __init__(self, size, orientation, top_left_location):
+        """
+        Method to init `Ship` class.
+
+        Parameters
+        ----------
+        size: int
+            Size of the ship.
+        orientation: ShipOrientationEnum
+            Orientation of the ship.
+        top_left_location: Tuple
+            Location of the top left chunk of the ship.
+            Indexes of corresponding Field object.
+        """
