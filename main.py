@@ -69,6 +69,23 @@ def handle_dialog(res, req):
             game_obj.player_field = utils.Field(5)
             for i in range(4):
                 game_obj.alice_field.place_ship(1)
+        elif (request_text == 'готов'
+              and game_obj.game_state == utils.GameStateEnum.SHIP_PLACEMENT):
+            # decide who will start with coin throw
+            player_turn = random.random() >= 0.5
+            if player_turn:
+                game_obj.game_state = utils.GameStateEnum.PLAYER_TURN
+                possible_responses = ('Я подбросила монетку, и она показала,'
+                                      ' что первый ход за вами.'
+                                      ' Скажите "ХОД" и координаты выстрела.',)
+            else:
+                game_obj.game_state = utils.GameStateEnum.ALICE_TURN
+                possible_responses = (f'Я подбросила монетку, и она показала,'
+                                      f' что первый ход за мной.'
+                                      f' ХОД: {random.randint(1, 5)},'
+                                      f' {random.randint(1, 5)}'
+                                      f' Скажите "Попала", "Убила" или "Мимо".', )
+
         else:
             possible_responses = (
                 f'Вы сказали: {request_text}',
