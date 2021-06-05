@@ -85,7 +85,18 @@ def handle_dialog(res, req):
                                       f' ХОД: {random.randint(1, 5)},'
                                       f' {random.randint(1, 5)}'
                                       f' Скажите "Попала", "Убила" или "Мимо".', )
-
+        elif (((hurt := 'попала' in request_text)
+               or (kill := 'убила' in request_text)
+               or (miss := 'мимо' in request_text))
+              and game_obj.game_state == utils.GameStateEnum.ALICE_TURN):
+            if hurt:
+                possible_responses = ('Значит я опять хожу.',)
+            elif kill:
+                possible_responses = ('Ура! Значит опять мой ход.',)
+            elif miss:
+                possible_responses = ('Эх. теперь ваш ход. '
+                                      'Скажите "ХОД" и координаты выстрела.',)
+                game_obj.game_state = utils.GameStateEnum.PLAYER_TURN
         else:
             possible_responses = (
                 f'Вы сказали: {request_text}',
