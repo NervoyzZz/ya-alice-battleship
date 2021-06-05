@@ -11,6 +11,9 @@ from flask import request
 
 
 app = Flask(__name__)
+game_obj = type('Game', (), {'game_state': None,
+                             'alice_field': None,
+                             'player_field': None})
 
 
 @app.route('/post', methods=['POST'])
@@ -50,22 +53,22 @@ def handle_dialog(res, req):
             'Приветствую вас! Это игра морской бой. Она еще разрабатывается. '
             'Хотите попробовать?'
         )
-        game_state = utils.GameStateEnum.NOT_STARTED
+        game_obj.game_state = utils.GameStateEnum.NOT_STARTED
     else:
         # there is user text
         request_text = request_text.lower()
         if request_text == 'старт':
-            game_state = utils.GameStateEnum.SHIP_PLACEMENT
+            game_obj.game_state = utils.GameStateEnum.SHIP_PLACEMENT
             possible_responses = ('Это тестовая версия игры. Начертите два '
                                  'поля размером пять на пять. Одно из них '
                                  'для расположения ваших кораблей, а другое для '
                                  'отслеживания ваших выстрелов по моим кораблям. '
                                  'Затем расположите на вашем поле четыре однопалубных '
                                  'кораблей. Как будете готовы, скажите "готов".',)
-            alice_field = utils.Field(5)
-            player_field = utils.Field(5)
+            game_obj.alice_field = utils.Field(5)
+            game_obj.player_field = utils.Field(5)
             for i in range(4):
-                alice_field.place_ship(1)
+                game_obj.alice_field.place_ship(1)
         else:
             possible_responses = (
                 f'Вы сказали: {request_text}',
